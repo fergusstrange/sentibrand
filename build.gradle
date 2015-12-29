@@ -8,6 +8,10 @@ repositories {
     mavenCentral()
 }
 
+jar {
+    baseName = 'sentiment-processing'
+}
+
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.13'
     compile 'edu.stanford.nlp:stanford-corenlp:3.5.2:models'
