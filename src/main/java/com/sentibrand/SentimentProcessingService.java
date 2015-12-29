@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.OptionalDouble;
 
 import static edu.stanford.nlp.sentiment.SentimentCoreAnnotations.SentimentAnnotatedTree;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static java.util.Objects.nonNull;
 
 @Component
 public class SentimentProcessingService {
@@ -30,5 +30,9 @@ public class SentimentProcessingService {
                         .mapToInt(RNNCoreAnnotations::getPredictedClass)
                         .asDoubleStream())
                 .average();
+    }
+
+    private boolean isNotBlank(String text) {
+        return nonNull(text) && text.trim().length() >= 0;
     }
 }
