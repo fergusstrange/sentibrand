@@ -1,5 +1,7 @@
 package com.sentibrand;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +18,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RequestMapping("/sentiment")
 public class SentimentProcessingController {
 
+    private static final Logger logger = LoggerFactory.getLogger(SentimentProcessingController.class);
+
     private final SentimentProcessingService sentimentProcessingService;
     private final SentimentResponseFactory sentimentResponseFactory;
 
@@ -28,6 +32,7 @@ public class SentimentProcessingController {
 
     @RequestMapping(method = POST)
     public ResponseEntity<SentimentResponse> sentiment(@RequestBody SentimentRequest sentimentRequest) {
+        logger.info(String.format("Processing sentiment for text: %s", sentimentRequest.getText()));
         OptionalDouble optionalDouble = sentimentProcessingService.forText(sentimentRequest.getText());
         return optionalDouble.isPresent() ?
                 ok(sentimentResponseFactory.create(sentimentRequest, optionalDouble.getAsDouble())) :
